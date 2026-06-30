@@ -1,0 +1,36 @@
+# Configuration Firebase App Hosting
+# Doc : https://firebase.google.com/docs/app-hosting/configure
+#
+# App Hosting détecte automatiquement l'app Angular SSR, lance `npm run build`
+# et déploie le serveur Node (dist/nap/server/server.mjs) sur Cloud Run.
+# Aucune commande de build à indiquer ici : elle vient de package.json.
+
+# Paramètres du conteneur d'exécution (Cloud Run)
+runConfig:
+  # Scale-to-zero : aucune instance au repos = aucun coût quand il n'y a pas de trafic.
+  # (Implique un léger "cold start" sur la 1re requête après inactivité.)
+  minInstances: 0
+  # Plafond de montée en charge. 10 suffit largement pour un site associatif.
+  maxInstances: 10
+  # Nombre de requêtes traitées simultanément par instance.
+  concurrency: 80
+  # Ressources par instance (le SSR Angular est léger).
+  cpu: 1
+  memoryMiB: 512
+
+# Variables d'environnement et secrets.
+# `PORT` est injecté automatiquement par App Hosting — ne pas le définir ici.
+# Exemple (à décommenter au besoin) :
+# env:
+#   - variable: API_BASE_URL
+#     value: https://api.nap-haiti.org
+#     availability:
+#       - RUNTIME
+#
+# Pour un secret (clé API, etc.), utiliser Cloud Secret Manager :
+#   firebase apphosting:secrets:set NOM_DU_SECRET
+# puis :
+#   - variable: NOM_DU_SECRET
+#     secret: NOM_DU_SECRET
+#     availability:
+#       - RUNTIME

@@ -1,0 +1,49 @@
+<div>
+  <section style="background: #FAF6EF; border-bottom: 1px solid #EFE7D9;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 72px 24px 40px;">
+      <span style="font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #D21034;">Actualit&eacute;s &amp; analyses</span>
+      <h1 style="font-size: 48px; color: #1A1814; margin-top: 14px;">Le journal de la NAP</h1>
+      <p style="font-size: 18px; line-height: 1.6; color: #564E44; margin-top: 16px; max-width: 660px;">R&eacute;flexions, propositions et nouvelles du mouvement sur la s&eacute;curit&eacute;, la gouvernance, la jeunesse et le d&eacute;veloppement.</p>
+      <div style="display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
+        @for (c of chips; track c) {
+          <button
+            (click)="setFilter(c)"
+            [style.background]="filter() === c ? '#00209F' : '#fff'"
+            [style.color]="filter() === c ? '#fff' : '#564E44'"
+            [style.border-color]="filter() === c ? '#00209F' : '#E0D7C7'"
+            style="padding: 9px 16px; font-size: 13.5px; font-weight: 600; border-radius: 999px; border: 1.5px solid;">{{ c }}</button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #fff;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 50px 24px 88px;">
+      @if (showFeatured()) {
+        <div style="text-align: left; width: 100%; display: grid; grid-template-columns: 1.1fr .9fr; gap: 0; background: #FAF6EF; border: 1px solid #ECE3D4; border-radius: 18px; overflow: hidden; margin-bottom: 44px;">
+          <div style="padding: 44px;">
+            <span style="font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #fff; background: #D21034; padding: 5px 11px; border-radius: 999px;">&Agrave; la une &middot; {{ featured.category }}</span>
+            <h2 style="font-size: 34px; color: #1A1814; margin-top: 20px; line-height: 1.16;">{{ featured.title }}</h2>
+            <p style="font-size: 16px; line-height: 1.62; color: #564E44; margin-top: 16px;">{{ featured.excerpt }}</p>
+            <p style="font-size: 13.5px; color: #8A8073; margin-top: 22px;">{{ featured.meta }}</p>
+          </div>
+          <div style="background: repeating-linear-gradient(135deg, #e7e0d2 0, #e7e0d2 13px, #ded5c4 13px, #ded5c4 26px); display: flex; align-items: center; justify-content: center; min-height: 280px;"><span style="font-family: ui-monospace, monospace; font-size: 12px; color: #948c7b; background: rgba(255,255,255,.75); padding: 6px 11px; border-radius: 6px;">{{ featured.imgLabel }}</span></div>
+        </div>
+      }
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;">
+        @for (a of gridArticles(); track a.title) {
+          <div style="text-align: left; background: #fff; border: 1px solid #ECE3D4; border-radius: 15px; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="aspect-ratio: 16/10; background: repeating-linear-gradient(135deg, #ece6da 0, #ece6da 12px, #e5ddce 12px, #e5ddce 24px); display: flex; align-items: center; justify-content: center;"><span style="font-family: ui-monospace, monospace; font-size: 11px; color: #97907f; background: rgba(255,255,255,.7); padding: 4px 9px; border-radius: 5px;">{{ a.imgLabel }}</span></div>
+            <div style="padding: 22px; display: flex; flex-direction: column; flex: 1;">
+              <span style="font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #D21034;">{{ a.category }}</span>
+              <h3 style="font-size: 19px; color: #1A1814; margin-top: 10px; line-height: 1.22;">{{ a.title }}</h3>
+              <p style="font-size: 14px; line-height: 1.55; color: #6B6258; margin-top: 11px; flex: 1;">{{ a.excerpt }}</p>
+              <p style="font-size: 13px; color: #8A8073; margin-top: 18px;">{{ a.meta }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+</div>

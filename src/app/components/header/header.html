@@ -1,0 +1,32 @@
+<header style="position: sticky; top: 0; z-index: 50;">
+  @if (showAnnouncement) {
+    <div style="background: #00209F; color: #fff; font-size: 13px; letter-spacing: .04em;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 9px 24px; display: flex; align-items: center; justify-content: center; gap: 14px; text-align: center; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #D21034;"></span>Unir &nbsp;&middot;&nbsp; Reconstruire &nbsp;&middot;&nbsp; Transformer</span>
+        <span style="opacity: .8;">Citoyens d'Ha&iuml;ti &amp; de la diaspora, ensemble pour la Patrie.</span>
+      </div>
+    </div>
+  }
+  <div style="background: rgba(250,246,239,.88); backdrop-filter: blur(10px); border-bottom: 1px solid #E9E1D4;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a routerLink="/" style="display: flex; align-items: center; gap: 13px;">
+        <span style="position: relative; width: 46px; height: 46px; border-radius: 11px; background: #00209F; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 14px rgba(0,32,159,.28);">
+          <span style="font-family: 'Lora', serif; font-weight: 700; color: #fff; font-size: 17px; letter-spacing: .02em;">NAP</span>
+          <span style="position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: #D21034;"></span>
+        </span>
+        <span style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.05;">
+          <span style="font-family: 'Lora', serif; font-weight: 700; font-size: 18px; color: #00209F;">Nouvelle Alliance</span>
+          <span style="font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #8A8073;">pour la Patrie</span>
+        </span>
+      </a>
+
+      <nav style="display: flex; align-items: center; gap: 6px;">
+        <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
+        <a class="nav-link" routerLink="/a-propos" routerLinkActive="active">&Agrave; propos</a>
+        <a class="nav-link" routerLink="/actualites" routerLinkActive="active">Actualit&eacute;s</a>
+        <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+        <a routerLink="/contact" style="margin-left: 10px; padding: 11px 20px; font-size: 14px; font-weight: 700; color: #fff; background: #D21034; border-radius: 9px; box-shadow: 0 4px 12px rgba(210,16,52,.3);">S'engager</a>
+      </nav>
+    </div>
+  </div>
+</header>

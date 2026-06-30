@@ -1,0 +1,44 @@
+<div>
+  <section style="background: #00209F; position: relative; overflow: hidden;">
+    <span style="position: absolute; left: -40px; bottom: -70px; width: 200px; height: 200px; border-radius: 50%; background: rgba(210,16,52,.3);"></span>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 76px 24px 84px; position: relative;">
+      <span style="font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #9FB0E8;">&Agrave; propos</span>
+      <h1 style="font-size: 50px; color: #fff; margin-top: 16px; max-width: 800px; letter-spacing: -0.01em;">La Nouvelle Alliance pour la Patrie</h1>
+      <p style="font-size: 19px; line-height: 1.6; color: #C7CFEC; margin-top: 20px; max-width: 720px;">Un mouvement sociopolitique ha&iuml;tien qui rassemble citoyens et diaspora autour d'une m&ecirc;me esp&eacute;rance pour Ha&iuml;ti.</p>
+    </div>
+  </section>
+
+  <section style="background: #FAF6EF;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px;">
+      <div>
+        <h2 style="font-size: 32px; color: #1A1814;">Notre mission</h2>
+        <p style="font-size: 17px; line-height: 1.68; color: #4E473D; margin-top: 20px;">La NAP rassemble des citoyens d'Ha&iuml;ti et de la diaspora autour d'une vision commune&nbsp;: contribuer &agrave; la reconstruction de l'&Eacute;tat, au r&eacute;tablissement de la s&eacute;curit&eacute;, au renforcement de la d&eacute;mocratie et au d&eacute;veloppement &eacute;conomique durable du pays.</p>
+        <p style="font-size: 17px; line-height: 1.68; color: #4E473D; margin-top: 18px;">Nous pr&ocirc;nons un leadership responsable, int&egrave;gre et comp&eacute;tent, fond&eacute; sur le dialogue, le rassemblement des forces vives de la nation et la recherche de solutions concr&egrave;tes aux d&eacute;fis d'Ha&iuml;ti.</p>
+        <p style="font-size: 17px; line-height: 1.68; color: #4E473D; margin-top: 18px;">&Agrave; travers des propositions de r&eacute;formes institutionnelles, de bonne gouvernance et de justice sociale, la NAP ambitionne de b&acirc;tir une Ha&iuml;ti o&ugrave; chaque citoyen peut vivre dans la paix, la dignit&eacute; et l'esp&eacute;rance.</p>
+      </div>
+      <div style="aspect-ratio: 3/4; border-radius: 16px; background: repeating-linear-gradient(135deg, #ece6da 0, #ece6da 13px, #e5ddce 13px, #e5ddce 26px); border: 1px solid #E4DCCD; display: flex; align-items: flex-end; justify-content: center; padding: 18px;"><span style="font-family: ui-monospace, monospace; font-size: 12px; color: #97907f; background: rgba(255,255,255,.78); padding: 6px 11px; border-radius: 6px;">PHOTO &mdash; portrait / terrain</span></div>
+    </div>
+  </section>
+
+  <section style="background: #fff; border-top: 1px solid #EFE7D9;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px;">
+      <h2 style="font-size: 32px; color: #1A1814;">Nos valeurs</h2>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 38px;">
+        @for (v of values; track v.num) {
+          <div style="display: flex; gap: 18px; background: #FAF6EF; border: 1px solid #ECE3D4; border-radius: 14px; padding: 26px;">
+            <span [style.background]="v.dot" style="flex: none; width: 46px; height: 46px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-family: 'Lora', serif; font-weight: 700; color: #fff; font-size: 18px;">{{ v.num }}</span>
+            <div><h3 style="font-size: 20px; color: #1A1814;">{{ v.title }}</h3><p style="font-size: 14.5px; line-height: 1.56; color: #6B6258; margin-top: 7px;">{{ v.text }}</p></div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #FAF6EF;">
+    <div style="max-width: 980px; margin: 0 auto; padding: 80px 24px; text-align: center;">
+      <span style="font-family: 'Lora', serif; font-size: 60px; color: #D21034; line-height: 0;">&ldquo;</span>
+      <p style="font-family: 'Lora', serif; font-style: italic; font-size: 28px; line-height: 1.45; color: #1A1814; margin-top: 10px;">Le changement na&icirc;t du rassemblement. C'est ensemble &mdash; citoyens, jeunes, femmes et diaspora &mdash; que nous transformerons Ha&iuml;ti.</p>
+      <p style="font-size: 15px; font-weight: 700; letter-spacing: .04em; color: #8A8073; margin-top: 24px; text-transform: uppercase;">Nouvelle Alliance pour la Patrie</p>
+    </div>
+  </section>
+</div>

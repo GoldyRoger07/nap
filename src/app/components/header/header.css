@@ -1,0 +1,20 @@
+.nav-link {
+  position: relative;
+  padding: 9px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4A433B;
+  transition: color .2s ease;
+}
+.nav-link:hover { color: #00209F; }
+.nav-link.active { color: #1A1814; }
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 1px;
+  height: 2px;
+  background: #D21034;
+  border-radius: 2px;
+}
