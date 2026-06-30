@@ -1,0 +1,41 @@
+# Render Blueprint — Angular SSR (service web Node, PAS un site statique)
+# Doc : https://render.com/docs/blueprint-spec
+#
+# Render détecte ce fichier et crée le service automatiquement.
+# Le serveur SSR (dist/nap/server/server.mjs) écoute sur $PORT, injecté par Render
+# et déjà géré dans src/server.ts.
+
+services:
+  - type: web
+    name: nap
+    runtime: node
+
+    # Plan "free" : le service se met en veille après ~15 min sans trafic
+    # (cold start de quelques dizaines de secondes au réveil).
+    # Passer à "starter" (~7 $/mois) pour un service toujours actif.
+    plan: free
+
+    # Région — choisir la plus proche de l'audience :
+    # oregon | ohio | virginia | frankfurt | singapore
+    region: virginia
+
+    branch: main
+    autoDeploy: true
+
+    # IMPORTANT : --include=dev force l'installation des devDependencies
+    # (@angular/build, etc.) que Render omettrait sinon à cause de NODE_ENV=production.
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run serve:ssr:nap
+
+    # Render vérifie que cette route répond 200 (la racine est prérendue).
+    healthCheckPath: /
+
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Hôtes autorisés par la protection anti-SSRF d'Angular SSR.
+      # angular.json a `allowedHosts: []` (rejette TOUT) ; cette variable a la priorité.
+      # "*" autorise tous les hôtes (OK derrière le proxy de Render).
+      # ↪ Pour resserrer : remplacer par tes domaines, ex. "nap.onrender.com,nap-haiti.org"
+      - key: NG_ALLOWED_HOSTS
+        value: "*"
