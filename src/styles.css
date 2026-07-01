@@ -31,3 +31,89 @@ ng-icon { display: inline-flex; line-height: 0; }
 /* Boutons réseaux sociaux : effet de survol */
 .social-chip--dark:hover { background: #00209F; color: #fff; }
 .social-chip--blue:hover { background: rgba(255,255,255,.25); }
+
+/* =====================================================================
+   RESPONSIVE
+   Le site est construit avec des styles inline. On surcharge ici les
+   points de rupture via des sélecteurs d'attribut + !important (qui
+   priment sur les styles inline), sans avoir à modifier chaque élément.
+   ===================================================================== */
+
+/* Empêche tout débordement horizontal global */
+html, body { max-width: 100%; overflow-x: hidden; }
+img { max-width: 100%; height: auto; }
+
+/* Tablette : grilles à 3-4 colonnes → 2 colonnes */
+@media (max-width: 900px) {
+  [style*="grid-template-columns: repeat(3"],
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns: 1.4fr 1fr 1fr 1fr"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Mobile : toutes les grilles multi-colonnes → une seule colonne */
+@media (max-width: 680px) {
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Réduit les grandes marges intérieures des cartes/héros */
+  [style*="padding: 44px"] { padding: 26px !important; }
+  [style*="padding: 72px 24px 40px"] { padding: 48px 20px 32px !important; }
+  [style*="padding: 50px 24px 88px"] { padding: 36px 20px 60px !important; }
+  [style*="min-height: 280px"] { min-height: 180px !important; }
+}
+
+/* Titres d'accroche fluides (surcharge les tailles inline en px) */
+@media (max-width: 640px) {
+  [style*="font-size: 60px"] { font-size: 34px !important; }
+  [style*="font-size: 50px"] { font-size: 31px !important; }
+  [style*="font-size: 48px"] { font-size: 32px !important; }
+  [style*="font-size: 44px"] { font-size: 30px !important; }
+  [style*="font-size: 40px"] { font-size: 29px !important; }
+  [style*="font-size: 38px"] { font-size: 28px !important; }
+  [style*="font-size: 36px"] { font-size: 27px !important; }
+  [style*="font-size: 34px"] { font-size: 25px !important; }
+  [style*="font-size: 30px"] { font-size: 24px !important; }
+  [style*="font-size: 28px"] { font-size: 22px !important; }
+  [style*="font-size: 26px"] { font-size: 21px !important; }
+}
+
+/* =========================== En-tête ============================== */
+.nav-toggle { display: none; }
+
+@media (max-width: 860px) {
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 9px;
+    color: #1A1814;
+    background: #fff;
+    border: 1.5px solid #E9E1D4;
+  }
+  .main-nav {
+    display: none !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 2px !important;
+    padding: 10px 16px 16px;
+    background: rgba(250, 246, 239, .98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #E9E1D4;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .07);
+  }
+  .main-nav.open { display: flex !important; }
+  .main-nav .nav-link { padding: 12px 10px; font-size: 16px; }
+  .main-nav > a:last-child {
+    margin-left: 0 !important;
+    margin-top: 8px;
+    text-align: center;
+  }
+}

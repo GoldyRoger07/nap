@@ -33,6 +33,8 @@ import {
   lucideHeart,
   lucideCircleUser,
   lucideMessageSquare,
+  lucideMenu,
+  lucideX,
 } from '@ng-icons/lucide';
 import {
   simpleFacebook,
@@ -70,6 +72,8 @@ export const appIcons = {
   lucideHeart,
   lucideCircleUser,
   lucideMessageSquare,
+  lucideMenu,
+  lucideX,
   simpleFacebook,
   simpleX,
   simpleInstagram,

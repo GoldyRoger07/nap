@@ -27,7 +27,7 @@ export const GROUPS: Group[] = [
 export const SOCIALS: Social[] = [
   { label: 'Facebook', icon: 'simpleFacebook', url: 'https://facebook.com' },
   { label: 'X', icon: 'simpleX', url: 'https://x.com' },
-  { label: 'Instagram', icon: 'simpleInstagram', url: 'https://instagram.com' },
+  { label: 'Instagram', icon: 'simpleInstagram', url: 'https://www.instagram.com/nap_haiti' },
   { label: 'Threads', icon: 'simpleThreads', url: 'https://threads.net' },
   { label: 'YouTube', icon: 'simpleYoutube', url: 'https://youtube.com' },
   { label: 'WhatsApp', icon: 'simpleWhatsapp', url: 'https://whatsapp.com' },
