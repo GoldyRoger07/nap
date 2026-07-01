@@ -1,0 +1,46 @@
+<div style="min-height: 70vh; display: flex; align-items: center; justify-content: center; background: #FAF6EF; padding: 60px 24px;">
+  @if (user(); as u) {
+    <div style="width: 100%; max-width: 420px; background: #fff; border: 1px solid #ECE3D4; border-radius: 18px; padding: 38px 34px; text-align: center;">
+      <div style="width: 56px; height: 56px; margin: 0 auto; border-radius: 50%; background: #00209F; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700;">{{ u.name.charAt(0).toUpperCase() }}</div>
+      <h1 style="font-size: 22px; color: #1A1814; margin-top: 18px;">{{ u.name }}</h1>
+      <p style="font-size: 14px; color: #8A8073; margin-top: 4px;">{{ u.email }}</p>
+      <p style="font-size: 14.5px; color: #564E44; margin-top: 20px;">Vous êtes connect&eacute;. Vous pouvez aimer et commenter les articles.</p>
+      <button (click)="logout()" style="margin-top: 24px; padding: 11px 22px; font-size: 15px; font-weight: 600; color: #564E44; background: #fff; border: 1.5px solid #E0D7C7; border-radius: 9px; cursor: pointer;">Se d&eacute;connecter</button>
+    </div>
+  } @else {
+    <div style="width: 100%; max-width: 420px; background: #fff; border: 1px solid #ECE3D4; border-radius: 18px; padding: 38px 34px;">
+      <h1 style="font-size: 22px; color: #1A1814;">{{ mode() === 'login' ? 'Se connecter' : 'Créer un compte' }}</h1>
+      <p style="font-size: 14px; color: #8A8073; margin-top: 6px;">Rejoignez la communaut&eacute; pour aimer et commenter les articles.</p>
+
+      <div style="display: flex; gap: 8px; margin-top: 22px; background: #FAF6EF; border-radius: 10px; padding: 4px;">
+        <button (click)="switchTo('login')" [style.background]="mode() === 'login' ? '#fff' : 'transparent'" [style.box-shadow]="mode() === 'login' ? '0 1px 3px rgba(0,0,0,.08)' : 'none'" style="flex: 1; padding: 9px; font-size: 14px; font-weight: 600; color: #1A1814; border: none; border-radius: 8px; cursor: pointer;">Connexion</button>
+        <button (click)="switchTo('register')" [style.background]="mode() === 'register' ? '#fff' : 'transparent'" [style.box-shadow]="mode() === 'register' ? '0 1px 3px rgba(0,0,0,.08)' : 'none'" style="flex: 1; padding: 9px; font-size: 14px; font-weight: 600; color: #1A1814; border: none; border-radius: 8px; cursor: pointer;">Inscription</button>
+      </div>
+
+      <form (ngSubmit)="submit()" style="margin-top: 22px;">
+        @if (mode() === 'register') {
+          <label style="display: block; font-size: 13px; font-weight: 600; color: #564E44;">Nom</label>
+          <input name="name" [(ngModel)]="name" autocomplete="name"
+            style="width: 100%; margin-top: 6px; margin-bottom: 16px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+        }
+
+        <label style="display: block; font-size: 13px; font-weight: 600; color: #564E44;">Email</label>
+        <input name="email" type="email" [(ngModel)]="email" autocomplete="email"
+          style="width: 100%; margin-top: 6px; margin-bottom: 16px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+
+        <label style="display: block; font-size: 13px; font-weight: 600; color: #564E44;">Mot de passe</label>
+        <input name="password" type="password" [(ngModel)]="password" [attr.autocomplete]="mode() === 'login' ? 'current-password' : 'new-password'"
+          style="width: 100%; margin-top: 6px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+
+        @if (error()) {
+          <p style="margin-top: 16px; font-size: 13.5px; color: #D21034;">{{ error() }}</p>
+        }
+
+        <button type="submit" [disabled]="submitting()" [style.opacity]="submitting() ? .6 : 1"
+          style="width: 100%; margin-top: 22px; padding: 12px; font-size: 15px; font-weight: 700; color: #fff; background: #D21034; border: none; border-radius: 9px; cursor: pointer;">
+          {{ submitting() ? 'Veuillez patienter…' : (mode() === 'login' ? 'Se connecter' : 'Créer mon compte') }}
+        </button>
+      </form>
+    </div>
+  }
+</div>

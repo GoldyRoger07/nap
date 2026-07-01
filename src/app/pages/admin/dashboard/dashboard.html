@@ -1,0 +1,180 @@
+<div style="background: #FAF6EF; min-height: 80vh;">
+  <div style="max-width: 960px; margin: 0 auto; padding: 44px 24px 80px;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+      <div>
+        <span style="font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #D21034;">Administration</span>
+        <h1 style="font-size: 30px; color: #1A1814; margin-top: 8px;">Espace r&eacute;daction</h1>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        @if (section() === 'articles' && mode() === 'list') {
+          <button (click)="newArticle()" style="display: inline-flex; align-items: center; gap: 7px; padding: 10px 16px; font-size: 14px; font-weight: 700; color: #fff; background: #D21034; border: none; border-radius: 9px; cursor: pointer;"><ng-icon name="lucidePlus" size="16" /> Nouvel article</button>
+        }
+        <button (click)="logout()" style="display: inline-flex; align-items: center; gap: 7px; padding: 10px 16px; font-size: 14px; font-weight: 600; color: #564E44; background: #fff; border: 1.5px solid #E0D7C7; border-radius: 9px; cursor: pointer;"><ng-icon name="lucideLogOut" size="16" /> D&eacute;connexion</button>
+      </div>
+    </div>
+
+    <!-- Onglets -->
+    @if (mode() === 'list') {
+      <div style="display: flex; gap: 8px; margin-top: 26px; border-bottom: 1px solid #E9E1D4;">
+        <button (click)="showArticles()"
+          [style.color]="section() === 'articles' ? '#00209F' : '#8A8073'"
+          [style.border-bottom-color]="section() === 'articles' ? '#00209F' : 'transparent'"
+          style="display: inline-flex; align-items: center; gap: 7px; padding: 11px 6px; margin-bottom: -1px; font-size: 15px; font-weight: 700; background: none; border: none; border-bottom: 2.5px solid; cursor: pointer;"><ng-icon name="lucidePencil" size="16" /> Articles</button>
+        <button (click)="showComments()"
+          [style.color]="section() === 'comments' ? '#00209F' : '#8A8073'"
+          [style.border-bottom-color]="section() === 'comments' ? '#00209F' : 'transparent'"
+          style="display: inline-flex; align-items: center; gap: 7px; padding: 11px 12px; margin-bottom: -1px; font-size: 15px; font-weight: 700; background: none; border: none; border-bottom: 2.5px solid; cursor: pointer;">
+          <ng-icon name="lucideMessageSquare" size="16" /> Commentaires
+          @if (pendingCount() > 0) {
+            <span style="font-size: 11.5px; font-weight: 700; color: #fff; background: #D21034; padding: 1px 8px; border-radius: 999px;">{{ pendingCount() }}</span>
+          }
+        </button>
+      </div>
+    }
+
+    @if (error() && mode() === 'list') {
+      <p style="margin-top: 20px; font-size: 14px; color: #D21034;">{{ error() }}</p>
+    }
+
+    <!-- ===================== ARTICLES ===================== -->
+    @if (section() === 'articles') {
+      @if (mode() === 'list') {
+        @if (loading()) {
+          <p style="margin-top: 30px; font-size: 15px; color: #8A8073;">Chargement&hellip;</p>
+        } @else if (articles().length === 0) {
+          <p style="margin-top: 30px; font-size: 15px; color: #8A8073;">Aucun article. Cliquez sur « Nouvel article » pour publier le premier.</p>
+        } @else {
+          <div style="margin-top: 24px; background: #fff; border: 1px solid #ECE3D4; border-radius: 14px; overflow: hidden;">
+            @for (a of articles(); track a.id) {
+              <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-bottom: 1px solid #F1E9DB;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="display: flex; align-items: center; gap: 9px; flex-wrap: wrap;">
+                    <span style="font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #D21034;">{{ a.category }}</span>
+                    @if (!a.published) {
+                      <span style="font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #8A8073; background: #F1E9DB; padding: 2px 8px; border-radius: 999px;">Brouillon</span>
+                    }
+                  </div>
+                  <p style="font-size: 16px; font-weight: 600; color: #1A1814; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ a.title }}</p>
+                  <p style="font-size: 12.5px; color: #8A8073; margin-top: 3px;">{{ meta(a) }} &middot; /{{ a.slug }}</p>
+                </div>
+                <button (click)="edit(a)" title="Modifier" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; color: #00209F; background: #fff; border: 1.5px solid #C9D0E6; border-radius: 9px; cursor: pointer;"><ng-icon name="lucidePencil" size="16" /></button>
+                <button (click)="remove(a)" title="Supprimer" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; color: #D21034; background: #fff; border: 1.5px solid #EAC7CE; border-radius: 9px; cursor: pointer;"><ng-icon name="lucideTrash2" size="16" /></button>
+              </div>
+            }
+          </div>
+        }
+      }
+
+      @if (mode() === 'edit') {
+        <form (ngSubmit)="save()" style="margin-top: 24px; background: #fff; border: 1px solid #ECE3D4; border-radius: 14px; padding: 30px;">
+          <h2 style="font-size: 20px; color: #1A1814;">{{ form().id ? 'Modifier l’article' : 'Nouvel article' }}</h2>
+
+          <label style="display: block; margin-top: 22px; font-size: 13px; font-weight: 600; color: #564E44;">Titre *</label>
+          <input [ngModel]="form().title" (ngModelChange)="patch('title', $event)" name="title" required
+            style="width: 100%; margin-top: 6px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px;">
+            <div>
+              <label style="display: block; font-size: 13px; font-weight: 600; color: #564E44;">Cat&eacute;gorie</label>
+              <select [ngModel]="form().category" (ngModelChange)="patch('category', $event)" name="category"
+                style="width: 100%; margin-top: 6px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px; background: #fff;">
+                @for (c of categories; track c) {
+                  <option [value]="c">{{ c }}</option>
+                }
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 13px; font-weight: 600; color: #564E44;">Date</label>
+              <input type="date" [ngModel]="form().date" (ngModelChange)="patch('date', $event)" name="date"
+                style="width: 100%; margin-top: 6px; padding: 10px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+            </div>
+          </div>
+
+          <label style="display: block; margin-top: 18px; font-size: 13px; font-weight: 600; color: #564E44;">R&eacute;sum&eacute; (chapô)</label>
+          <textarea [ngModel]="form().excerpt" (ngModelChange)="patch('excerpt', $event)" name="excerpt" rows="2"
+            placeholder="Laissez vide pour générer automatiquement à partir du contenu."
+            style="width: 100%; margin-top: 6px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px; resize: vertical; font-family: inherit;"></textarea>
+
+          <label style="display: block; margin-top: 18px; font-size: 13px; font-weight: 600; color: #564E44;">Contenu * <span style="font-weight: 400; color: #8A8073;">(une ligne vide sépare les paragraphes)</span></label>
+          <textarea [ngModel]="form().body" (ngModelChange)="patch('body', $event)" name="body" rows="12" required
+            style="width: 100%; margin-top: 6px; padding: 13px; font-size: 15px; line-height: 1.6; border: 1.5px solid #E0D7C7; border-radius: 9px; resize: vertical; font-family: inherit;"></textarea>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-top: 18px;">
+            <div>
+              <label style="display: block; font-size: 13px; font-weight: 600; color: #564E44;">Lien (slug)</label>
+              <input [ngModel]="form().slug" (ngModelChange)="patch('slug', $event)" name="slug"
+                placeholder="Généré depuis le titre si vide"
+                style="width: 100%; margin-top: 6px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 13px; font-weight: 600; color: #564E44;">Lecture (min)</label>
+              <input type="number" min="1" [ngModel]="form().readMinutes" (ngModelChange)="patch('readMinutes', $event)" name="readMinutes"
+                placeholder="auto"
+                style="width: 100%; margin-top: 6px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+            </div>
+          </div>
+
+          <label style="display: block; margin-top: 18px; font-size: 13px; font-weight: 600; color: #564E44;">Libell&eacute; image (placeholder)</label>
+          <input [ngModel]="form().imgLabel" (ngModelChange)="patch('imgLabel', $event)" name="imgLabel"
+            placeholder="ex. PHOTO — sécurité"
+            style="width: 100%; margin-top: 6px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+
+          <label style="display: flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 14.5px; color: #1A1814; cursor: pointer;">
+            <input type="checkbox" [ngModel]="form().published" (ngModelChange)="patch('published', $event)" name="published" style="width: 17px; height: 17px;">
+            Publier (visible sur le site). D&eacute;cochez pour garder en brouillon.
+          </label>
+
+          @if (error()) {
+            <p style="margin-top: 18px; font-size: 14px; color: #D21034;">{{ error() }}</p>
+          }
+
+          <div style="display: flex; gap: 12px; margin-top: 26px;">
+            <button type="submit" [disabled]="saving()"
+              style="display: inline-flex; align-items: center; gap: 7px; padding: 12px 22px; font-size: 15px; font-weight: 700; color: #fff; background: #D21034; border: none; border-radius: 9px; cursor: pointer;"
+              [style.opacity]="saving() ? .6 : 1">
+              {{ saving() ? 'Enregistrement…' : (form().id ? 'Enregistrer les modifications' : 'Publier l’article') }}
+            </button>
+            <button type="button" (click)="cancel()"
+              style="padding: 12px 22px; font-size: 15px; font-weight: 600; color: #564E44; background: #fff; border: 1.5px solid #E0D7C7; border-radius: 9px; cursor: pointer;">Annuler</button>
+          </div>
+        </form>
+      }
+    }
+
+    <!-- ===================== COMMENTAIRES ===================== -->
+    @if (section() === 'comments') {
+      @if (commentsLoading()) {
+        <p style="margin-top: 30px; font-size: 15px; color: #8A8073;">Chargement des commentaires&hellip;</p>
+      } @else if (comments().length === 0) {
+        <p style="margin-top: 30px; font-size: 15px; color: #8A8073;">Aucun commentaire pour le moment.</p>
+      } @else {
+        <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 14px;">
+          @for (c of comments(); track c.id) {
+            <div style="background: #fff; border: 1px solid #ECE3D4; border-radius: 12px; padding: 18px 20px;"
+              [style.border-left]="c.status === 'pending' ? '4px solid #D21034' : '4px solid #1a7f4b'">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                <div>
+                  <span style="font-size: 14.5px; font-weight: 700; color: #1A1814;">{{ c.authorName }}</span>
+                  @if (c.status === 'pending') {
+                    <span style="margin-left: 8px; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #D21034; background: #FBE3E7; padding: 2px 8px; border-radius: 999px;">En attente</span>
+                  } @else {
+                    <span style="margin-left: 8px; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #1a7f4b; background: #E3F3EA; padding: 2px 8px; border-radius: 999px;">Publié</span>
+                  }
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  @if (c.status === 'pending') {
+                    <button (click)="approveComment(c)" style="display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; font-size: 13.5px; font-weight: 700; color: #fff; background: #1a7f4b; border: none; border-radius: 8px; cursor: pointer;"><ng-icon name="lucideCheck" size="15" /> Approuver</button>
+                  }
+                  <button (click)="deleteComment(c)" title="Supprimer" style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; color: #D21034; background: #fff; border: 1.5px solid #EAC7CE; border-radius: 8px; cursor: pointer;"><ng-icon name="lucideTrash2" size="15" /></button>
+                </div>
+              </div>
+              <p style="font-size: 15px; line-height: 1.6; color: #2E2A24; margin-top: 10px; white-space: pre-wrap;">{{ c.body }}</p>
+              <p style="font-size: 12.5px; color: #8A8073; margin-top: 10px;">Sur « {{ c.articleTitle }} » &middot; {{ commentDate(c.createdAt) }}</p>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

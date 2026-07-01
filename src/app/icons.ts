@@ -8,6 +8,7 @@
  */
 import {
   lucideArrowRight,
+  lucideArrowLeft,
   lucideArrowUpRight,
   lucideChevronRight,
   lucideMail,
@@ -24,6 +25,14 @@ import {
   lucideSprout,
   lucideCheck,
   lucideSend,
+  lucidePlus,
+  lucidePencil,
+  lucideTrash2,
+  lucideLogOut,
+  lucideLock,
+  lucideHeart,
+  lucideCircleUser,
+  lucideMessageSquare,
 } from '@ng-icons/lucide';
 import {
   simpleFacebook,
@@ -36,6 +45,7 @@ import {
 
 export const appIcons = {
   lucideArrowRight,
+  lucideArrowLeft,
   lucideArrowUpRight,
   lucideChevronRight,
   lucideMail,
@@ -52,6 +62,14 @@ export const appIcons = {
   lucideSprout,
   lucideCheck,
   lucideSend,
+  lucidePlus,
+  lucidePencil,
+  lucideTrash2,
+  lucideLogOut,
+  lucideLock,
+  lucideHeart,
+  lucideCircleUser,
+  lucideMessageSquare,
   simpleFacebook,
   simpleX,
   simpleInstagram,

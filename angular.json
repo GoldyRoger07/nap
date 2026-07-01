@@ -30,11 +30,22 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
-              "allowedHosts": []
+              "allowedHosts": [
+                "localhost",
+                "127.0.0.1",
+                "*.onrender.com",
+                "nap-haiti.org",
+                "*.nap-haiti.org"
+              ]
             },
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "externalDependencies": [
+              "pg",
+              "pg-native",
+              "pg-cloudflare"
+            ]
           },
           "configurations": {
             "production": {

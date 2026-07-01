@@ -1,0 +1,97 @@
+@if (loading()) {
+  <div style="max-width: 760px; margin: 0 auto; padding: 90px 24px;">
+    <p style="font-size: 15px; color: #8A8073;">Chargement de l'article&hellip;</p>
+  </div>
+} @else if (notFound()) {
+  <div style="max-width: 760px; margin: 0 auto; padding: 90px 24px; text-align: center;">
+    <span style="font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #D21034;">Erreur 404</span>
+    <h1 style="font-size: 34px; color: #1A1814; margin-top: 12px;">Article introuvable</h1>
+    <p style="font-size: 16px; color: #564E44; margin-top: 14px;">Cet article n'existe pas ou n'est plus disponible.</p>
+    <a routerLink="/actualites" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; padding: 12px 20px; font-size: 15px; font-weight: 700; color: #fff; background: #00209F; border-radius: 10px;">Retour aux actualit&eacute;s</a>
+  </div>
+} @else if (article(); as a) {
+  <article>
+    <div style="background: #FAF6EF; border-bottom: 1px solid #EFE7D9;">
+      <div style="max-width: 760px; margin: 0 auto; padding: 40px 24px 36px;">
+        <a routerLink="/actualites" style="display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; color: #00209F;"><ng-icon name="lucideArrowLeft" size="16" /> Actualit&eacute;s</a>
+        <span style="display: inline-block; margin-top: 22px; font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #fff; background: #D21034; padding: 5px 11px; border-radius: 999px;">{{ a.category }}</span>
+        <h1 style="font-size: 40px; color: #1A1814; margin-top: 18px; line-height: 1.14;">{{ a.title }}</h1>
+        <p style="font-size: 18px; line-height: 1.6; color: #564E44; margin-top: 16px;">{{ a.excerpt }}</p>
+        <p style="font-size: 13.5px; color: #8A8073; margin-top: 20px;">{{ meta(a) }}</p>
+      </div>
+    </div>
+
+    <div style="background: #fff;">
+      <div style="max-width: 760px; margin: 0 auto; padding: 0 24px;">
+        <div style="aspect-ratio: 16/8; margin-top: 32px; border-radius: 16px; background: repeating-linear-gradient(135deg, #e7e0d2 0, #e7e0d2 13px, #ded5c4 13px, #ded5c4 26px); display: flex; align-items: center; justify-content: center;"><span style="font-family: ui-monospace, monospace; font-size: 12px; color: #948c7b; background: rgba(255,255,255,.75); padding: 6px 11px; border-radius: 6px;">{{ a.imgLabel }}</span></div>
+
+        <div style="padding: 40px 0 80px;">
+          @for (p of paragraphs(); track $index) {
+            <p style="font-size: 17.5px; line-height: 1.75; color: #2E2A24; margin-bottom: 22px;">{{ p }}</p>
+          }
+
+          <!-- J'aime -->
+          <div style="margin-top: 34px; display: flex; align-items: center; gap: 14px;">
+            <button (click)="toggleLike()" [disabled]="likePending()"
+              [style.background]="likes().liked ? '#D21034' : '#fff'"
+              [style.color]="likes().liked ? '#fff' : '#D21034'"
+              style="display: inline-flex; align-items: center; gap: 9px; padding: 11px 20px; font-size: 15px; font-weight: 700; border: 1.5px solid #D21034; border-radius: 999px; cursor: pointer;">
+              <ng-icon name="lucideHeart" size="18" /> J'aime &middot; {{ likes().count }}
+            </button>
+            @if (!isLoggedIn()) {
+              <span style="font-size: 13.5px; color: #8A8073;">Connectez-vous pour aimer cet article.</span>
+            }
+          </div>
+
+          <!-- Commentaires -->
+          <div style="margin-top: 44px; padding-top: 30px; border-top: 1px solid #ECE3D4;">
+            <h2 style="font-size: 22px; color: #1A1814;">Commentaires @if (comments().length) { <span style="color: #8A8073; font-weight: 400;">({{ comments().length }})</span> }</h2>
+
+            @if (isLoggedIn()) {
+              <form (ngSubmit)="submitComment()" style="margin-top: 20px;">
+                <textarea [(ngModel)]="commentBody" name="commentBody" rows="4" placeholder="Partagez votre point de vue…"
+                  style="width: 100%; padding: 13px; font-size: 15px; line-height: 1.6; border: 1.5px solid #E0D7C7; border-radius: 10px; resize: vertical; font-family: inherit;"></textarea>
+                @if (commentError()) {
+                  <p style="margin-top: 8px; font-size: 13.5px; color: #D21034;">{{ commentError() }}</p>
+                }
+                @if (commentPending()) {
+                  <p style="margin-top: 8px; font-size: 13.5px; color: #1a7f4b;">Merci ! Votre commentaire sera publi&eacute; apr&egrave;s validation par la r&eacute;daction.</p>
+                }
+                <button type="submit" [disabled]="commentSubmitting()" [style.opacity]="commentSubmitting() ? .6 : 1"
+                  style="margin-top: 12px; padding: 11px 22px; font-size: 15px; font-weight: 700; color: #fff; background: #00209F; border: none; border-radius: 9px; cursor: pointer;">
+                  {{ commentSubmitting() ? 'Envoi…' : 'Publier mon commentaire' }}
+                </button>
+              </form>
+            } @else {
+              <div style="margin-top: 18px; padding: 20px; background: #FAF6EF; border: 1px solid #ECE3D4; border-radius: 12px;">
+                <p style="font-size: 15px; color: #564E44;">Vous devez avoir un compte pour commenter.</p>
+                <a [routerLink]="loginLink()" [queryParams]="{ redirect: '/actualites/' + slug }" style="display: inline-flex; margin-top: 12px; padding: 10px 18px; font-size: 14.5px; font-weight: 700; color: #fff; background: #D21034; border-radius: 9px;">Se connecter ou s'inscrire</a>
+              </div>
+            }
+
+            <div style="margin-top: 28px;">
+              @for (c of comments(); track c.id) {
+                <div style="padding: 18px 0; border-bottom: 1px solid #F1E9DB;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="width: 34px; height: 34px; border-radius: 50%; background: #00209F; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;">{{ c.authorName.charAt(0).toUpperCase() }}</span>
+                    <div>
+                      <p style="font-size: 14.5px; font-weight: 600; color: #1A1814;">{{ c.authorName }}</p>
+                      <p style="font-size: 12px; color: #8A8073;">{{ commentDate(c.createdAt) }}</p>
+                    </div>
+                  </div>
+                  <p style="font-size: 15.5px; line-height: 1.65; color: #2E2A24; margin-top: 11px; white-space: pre-wrap;">{{ c.body }}</p>
+                </div>
+              } @empty {
+                <p style="font-size: 14.5px; color: #8A8073;">Aucun commentaire pour l'instant. Soyez le premier &agrave; r&eacute;agir.</p>
+              }
+            </div>
+          </div>
+
+          <div style="margin-top: 40px; padding-top: 28px; border-top: 1px solid #ECE3D4;">
+            <a routerLink="/actualites" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: #00209F; border: 1.5px solid #C9D0E6; border-radius: 10px; padding: 12px 20px;"><ng-icon name="lucideArrowLeft" size="17" /> Tous les articles</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+}

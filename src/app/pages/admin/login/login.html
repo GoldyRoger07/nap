@@ -1,0 +1,29 @@
+<div style="min-height: 70vh; display: flex; align-items: center; justify-content: center; background: #FAF6EF; padding: 60px 24px;">
+  <form (ngSubmit)="submit()" style="width: 100%; max-width: 400px; background: #fff; border: 1px solid #ECE3D4; border-radius: 18px; padding: 40px 34px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="width: 40px; height: 40px; border-radius: 10px; background: #00209F; display: flex; align-items: center; justify-content: center; color: #fff;"><ng-icon name="lucideLock" size="19" /></span>
+      <div>
+        <h1 style="font-size: 20px; color: #1A1814;">Espace r&eacute;daction</h1>
+        <p style="font-size: 13px; color: #8A8073;">Connexion administrateur</p>
+      </div>
+    </div>
+
+    <label style="display: block; margin-top: 28px; font-size: 13px; font-weight: 600; color: #564E44;">Identifiant</label>
+    <input name="username" [(ngModel)]="username" autocomplete="username" required
+      style="width: 100%; margin-top: 7px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+
+    <label style="display: block; margin-top: 18px; font-size: 13px; font-weight: 600; color: #564E44;">Mot de passe</label>
+    <input name="password" type="password" [(ngModel)]="password" autocomplete="current-password" required
+      style="width: 100%; margin-top: 7px; padding: 11px 13px; font-size: 15px; border: 1.5px solid #E0D7C7; border-radius: 9px;">
+
+    @if (error()) {
+      <p style="margin-top: 16px; font-size: 13.5px; color: #D21034;">{{ error() }}</p>
+    }
+
+    <button type="submit" [disabled]="submitting()"
+      style="width: 100%; margin-top: 24px; padding: 12px; font-size: 15px; font-weight: 700; color: #fff; background: #D21034; border: none; border-radius: 9px; cursor: pointer;"
+      [style.opacity]="submitting() ? .6 : 1">
+      {{ submitting() ? 'Connexion…' : 'Se connecter' }}
+    </button>
+  </form>
+</div>
