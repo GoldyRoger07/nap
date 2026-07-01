@@ -520,9 +520,12 @@ export function getStore(): Promise<Store> {
   storePromise = (async () => {
     if (DATABASE_URL) {
       const { Pool } = await import('pg');
+      // SSL requis par Render (URL externe) mais pas en local ni si sslmode=disable.
+      const local = /localhost|127\.0\.0\.1/.test(DATABASE_URL);
+      const sslDisabled = /sslmode=disable/.test(DATABASE_URL);
       const pool = new Pool({
         connectionString: DATABASE_URL,
-        ssl: DATABASE_URL.includes('localhost') ? undefined : { rejectUnauthorized: false },
+        ssl: local || sslDisabled ? undefined : { rejectUnauthorized: false },
       });
       const store = new PostgresStore(pool);
       await store.init();
